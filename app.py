@@ -2,6 +2,8 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 
+from tensorflow.keras.layers import Input, GlobalAveragePooling2D, Dropout, Dense
+from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
@@ -16,7 +18,28 @@ st.set_page_config(
 # Load model
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model("models/final_clothing_classifier.keras")
+
+    # Recreate the same architecture used during training
+    base_model = MobileNetV2(
+        weights=None,
+        include_top=False,
+        input_shape=(224, 224, 3)
+    )
+
+    inputs = Input(shape=(224, 224, 3))
+
+    x = base_model(inputs, training=False)
+    x = GlobalAveragePooling2D()(x)
+    x = Dropout(0.3)(x)
+    outputs = Dense(6, activation="softmax")(x)
+
+    model = tf.keras.Model(inputs, outputs)
+
+    # Load trained weights
+    model.load_weights("models/final_clothing_classifier.weights.h5")
+
+    return model
+
 
 model = load_model()
 
