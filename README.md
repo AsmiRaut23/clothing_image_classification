@@ -4,6 +4,14 @@ A deep learning-based image classification project that classifies clothing imag
 
 ---
 
+## Live Demo
+
+**Streamlit App:** https://clothing-image-classifier.streamlit.app/
+
+Try uploading an image of a **Blazer, Jeans, Shirt, Shorts, Skirt, or T-shirt** to test the deployed model.
+
+---
+
 ## Project Overview
 
 This project was developed to build a robust clothing image classifier while following an industry-standard transfer learning workflow. Instead of relying on a single training approach, multiple experiments were conducted to compare different fine-tuning strategies and select the best-performing model.
@@ -91,11 +99,11 @@ The final model used stronger augmentation during training to improve generaliza
 #### Stage 1
 
 - Frozen MobileNetV2 backbone
-- Trained only the custom classification head
+- Trained only the custom classification head.
 
 #### Stage 2
 
-- Unfroze the upper MobileNetV2 layers
+- Unfroze the upper MobileNetV2 layers.
 - Learning Rate: **1e-5**
 - EarlyStopping
 - ReduceLROnPlateau
@@ -118,19 +126,22 @@ The model was evaluated using multiple metrics rather than accuracy alone.
 
 ![Final Confusion Matrix](outputs/confusion_matrix.png)
 
-
 The final model achieved **82.44%** test accuracy across six clothing categories. During testing, the most noticeable practical limitation was distinguishing **Shirt** and **T-shirt**, as these visually similar categories can produce uncertain or incorrect predictions on some unseen images.
 
 ---
 
 ## Streamlit Web Application
 
-The project includes a deployment-ready Streamlit application that allows users to upload an image and receive:
+The project includes a deployed Streamlit application that allows users to upload an image and receive:
 
 - Predicted clothing category
 - Confidence percentage
 - Top-3 predictions
 - Uncertain prediction handling for low-confidence cases
+
+### Live Demo
+
+**https://clothing-image-classifier.streamlit.app/**
 
 ### Run Locally
 
@@ -143,33 +154,32 @@ streamlit run app.py
 ## Project Structure
 
 ```text
-Image_Classification/
+clothing_image_classification/
 │
 ├── ImageClassification.ipynb
 ├── app.py
-├── save_model.py
-├── test_inference.py
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
 │
 ├── models/
-│   └── final_clothing_classifier.keras
-│
-├── sample_images/
+│   ├── final_clothing_classifier.keras
+│   └── final_clothing_classifier.weights.h5
 │
 ├── outputs/
 │   ├── confusion_matrix.png
 │   ├── confusion_matrix_finetuned.png
 │   └── confusion_matrix_exp3.png
 │
+├── sample_images/
+│
 └── dataset/
-    ├── test
-    ├── train
-    └── validation
-
+    ├── train/
+    ├── validation/
+    └── test/
 ```
-(Not included in the repository; download from Kaggle.)
+
+> The `dataset/` directory is excluded from this repository. Download it from Kaggle before training the model locally.
 
 ---
 
@@ -191,8 +201,8 @@ Image_Classification/
 
 - Expand to additional clothing categories.
 - Improve Shirt vs T-shirt discrimination.
-- Deploy the Streamlit application online.
 - Increase dataset diversity for better real-world generalization.
+- Optimize inference for faster deployment.
 
 ---
 
@@ -205,5 +215,5 @@ Through this project I gained practical experience in:
 - Data Augmentation
 - Learning Rate Scheduling
 - Model Evaluation using Precision, Recall, F1-score, and Confusion Matrix
-- Building a deployment-ready Streamlit application
+- Building and deploying a Streamlit web application
 - Comparing multiple ML experiments to select the best-performing model
